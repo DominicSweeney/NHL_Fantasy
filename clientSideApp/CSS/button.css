@@ -1,0 +1,18 @@
+.button-class {
+  background-color: #000000; /* Black */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 100px; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  box-shadow: 0 0 15px 10px oldlace; /* Box shadow to make the button pop */
+}
