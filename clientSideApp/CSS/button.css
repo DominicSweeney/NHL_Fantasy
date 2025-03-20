@@ -14,5 +14,10 @@
   border-radius: 50%;
   width: 100px; /* Adjust width as needed */
   height: 100px; /* Adjust height as needed */
-  box-shadow: 0 0 15px 10px oldlace; /* Box shadow to make the button pop */
+  box-shadow: 0 0 30px 20px oldlace; /* Box shadow to make the button pop */
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.button-class:hover {
+  transform: scale(1.2); /* Increase size by 20% */
 }
