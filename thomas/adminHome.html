@@ -39,20 +39,8 @@
         <p> 2025 NHL Fantasy. All rights reserved.</p>
     </footer>
 
-    <script>
-        fetch('/recent-activities') // Fetch from Flask route
-            .then(response => response.json())
-            .then(data => {
-                let activityList = document.getElementById('activity-list');
-                activityList.innerHTML = ""; // Clear placeholder text
-                
-                data.forEach(activity => {
-                    let li = document.createElement('li');
-                    li.textContent = activity.description; // Assuming MySQL has a 'description' column
-                    activityList.appendChild(li);
-                });
-            })
-            .catch(error => console.error('Error fetching activities:', error));
-    </script>
+    
+       <!-- might need to add another -->
+
 </body>
 </html>
