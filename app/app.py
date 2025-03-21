@@ -1,9 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-
-
-
 app = Flask(__name__)
 
 # Point to the same SQLite file you use in DataGrip
@@ -24,7 +21,6 @@ def create_tables():
         db.create_all()
 
 create_tables()
-
 
 @app.route("/")
 def index():
@@ -54,6 +50,10 @@ def vs_computer():
 def pick_up_card():
     return render_template("pickUpCard.html")
 
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
 # @app.route('/adminHome')
 # def admin_home():
 #     return render_template('adminHome.html')
@@ -65,9 +65,6 @@ def pick_up_card():
 #     data = cursor.fetchall()
 #     cursor.close()
 #     return jsonify(data)
-
-
-
 
 # @app.route('/')
 # def index():
