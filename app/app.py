@@ -50,6 +50,10 @@ def how_to_play():
 def vs_computer():
     return render_template("VsComputer.html")
 
+@app.route("/pickUpCard")
+def pick_up_card():
+    return render_template("pickUpCard.html")
+
 # @app.route('/adminHome')
 # def admin_home():
 #     return render_template('adminHome.html')
