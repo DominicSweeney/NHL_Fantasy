@@ -1,13 +1,56 @@
 .container {
-    position: relative;
-    text-align: center;
-    color: white;
-  }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  /* Make sure the container takes the full height of the viewport */
+  text-align: center;
+}
 
-  /* Centered text */
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.pickUpButton {
+  position: absolute;
+  top: 45%;
+  left: 29.5%;
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Semi-transparent background */
+  padding: 10px;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  width: 40%;
+  font-size: 20px;
+  z-index: 1;
+  /* Ensure the button is above the image */
+  text-decoration: none;
+}
+
+.pickUpButton:hover {
+  background-color: rgba(0, 0, 0, 1);
+  /* Darken the background on hover */
+  transform: scale(1.2);
+  /* Increase size by 20% */
+  transition: transform 0.3s ease;
+  /* Smooth transition */
+  box-shadow: 0 0 5px 5px oldlace;
+  /* Box shadow to make the button pop */
+}
+
+.playerCard {
+  max-width: 100%;
+  border-radius: 5px;
+  z-index: 0;
+  /* Ensure the image is below the button */
+}
+
+body {
+  background-color: aqua;
+}
+
+/* Add a media query to make the button responsive */
+@media screen and (max-width: 768px) {
+  .pickUpButton {
+    width: 80%;
+    left: 10%;
   }
+}
