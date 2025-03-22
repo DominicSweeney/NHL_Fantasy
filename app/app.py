@@ -1,42 +1,58 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-# Point to the same SQLite file you use in DataGrip
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///database.db"
+# App Configuration
+app.config['SECRET_KEY'] = 'your_secret_key'  # You should change this to a secret key
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///database1.db"  # Your existing SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Initialize the database and login manager
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # Set the default login route for Flask-Login
 
-# Example Model
-class User(db.Model):
+# Example Model - User model for the database
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    Password = db.Column(db.String(80), unique=True, nullable=False)
-    fav_team = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
 
+# Initialize the database (if it doesn't exist already)
 def create_tables():
     with app.app_context():
         db.create_all()
 
 create_tables()
 
+# User loader for Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Routes
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
-#temp to check DELETE
+# Temporary route to check DELETE
 @app.route("/test")
 def test():
-    users=User.query.all()
+    users = User.query.all()
     for user in users:
         print(user.username)
     return render_template("test.html", users=users)
 
 @app.route("/home")
+@login_required
 def home():
-    return render_template("home.html")
+    # Render the home.html template and pass the username and email to it
+    return render_template("home.html", username=current_user.username)
 
 @app.route("/howToPlay")
 def how_to_play():
@@ -50,26 +66,57 @@ def vs_computer():
 def pick_up_card():
     return render_template("pickUpCard.html")
 
-@app.route("/register")
+@app.route("/register", methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+
+        # Check if the username or email already exists
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash("Username already taken", 'danger')
+            return redirect(url_for('register'))
+        
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email:
+            flash("Email already registered", 'danger')
+            return redirect(url_for('register'))
+
+        # Hash password
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        new_user = User(username=username, password=hashed_password, email=email)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash("Registration successful!", 'success')
+        return redirect(url_for('index'))
     return render_template("register.html")
 
-# @app.route('/adminHome')
-# def admin_home():
-#     return render_template('adminHome.html')
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-# @app.route("/recent-activities")
-# def recent_activities():
-#     cursor = db.cursor(dictionary=True)
-#     cursor.execute("SELECT description FROM recent_activities ORDER BY created_at DESC LIMIT 5")  
-#     data = cursor.fetchall()
-#     cursor.close()
-#     return jsonify(data)
+        user = User.query.filter_by(username=username).first()
 
-# @app.route('/')
-# def index():
-#     users = User.query.all()
-#     return f"Users: {[user.username for user in users]}"
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('home'))
 
+        flash('Invalid username or password', 'danger')
+    return render_template("index.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+# Main entry point for running the app
 if __name__ == '__main__':
     app.run(debug=True)
