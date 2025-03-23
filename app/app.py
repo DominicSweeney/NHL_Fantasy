@@ -115,6 +115,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('You have been logged out successfully.', 'success')
     return redirect(url_for('index'))
 
 # Main entry point for running the app
