@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # App Configuration
 app.config['SECRET_KEY'] = 'your_secret_key'  # You should change this to a secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///database1.db"  # Your existing SQLite database
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///users.db"  # Your existing SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize the database and login manager
@@ -118,6 +118,10 @@ def logout():
     flash('You have been logged out successfully.', 'success')
     return redirect(url_for('index'))
 
+@app.route("/adminLogin")
+def admin_login():
+    return render_template("adminLogin.html")
+
 @app.route("/manageUsers")
 @login_required
 def manage_users():
@@ -125,6 +129,34 @@ def manage_users():
     users = User.query.all()
     # Pass the users to the manageUsers.html template
     return render_template("manageUsers.html", users=users)
+
+@app.route("/delete_user/<int:user_id>", methods=['POST'])
+@login_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+
+    db.session.delete(user)
+    db.session.commit()
+    flash(f"User '{user.username}' has been deleted.", 'success')
+    return redirect(url_for('manage_users'))
+
+@app.route("/edit_user/<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def edit_user(user_id):
+    user = User.query.get_or_404(user_id)
+
+    if request.method == 'POST':
+        new_username = request.form['username']
+        new_email = request.form['email']
+
+        # Update user info
+        user.username = new_username
+        user.email = new_email
+        db.session.commit()
+        flash(f"User '{user.username}' has been updated.", 'success')
+        return redirect(url_for('manage_users'))
+
+    return render_template("editUser.html", user=user)
 
 # Main entry point for running the app
 if __name__ == '__main__':

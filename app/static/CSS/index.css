@@ -70,6 +70,7 @@
 }
 
 .alert {
+    background-color: #ffffff;
     padding: 15px;
     margin: 10px 0;
     border-radius: 5px;
