@@ -1,0 +1,12 @@
+.container{
+    margin-bottom: 10%;
+    background: rgba(88, 88, 88, 0.7);
+    border: 2px dotted rgb(0, 0, 0);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 15%;
+}

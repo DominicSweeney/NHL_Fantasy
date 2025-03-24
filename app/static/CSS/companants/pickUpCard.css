@@ -42,15 +42,3 @@
   z-index: 0;
   /* Ensure the image is below the button */
 }
-
-body {
-  background-color: aqua;
-}
-
-/* Add a media query to make the button responsive */
-@media screen and (max-width: 768px) {
-  .pickUpButton {
-    width: 80%;
-    left: 10%;
-  }
-}
