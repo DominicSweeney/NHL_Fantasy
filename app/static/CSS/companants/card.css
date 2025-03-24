@@ -1,0 +1,78 @@
+h2,
+h3 {
+    color: rgb(255, 255, 255);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    /* Make sure the container takes the full height of the viewport */
+    margin-top: 15%;
+}
+
+.formattedCard {
+    max-width: 100%;
+    border-radius: 5px;
+    z-index: 0;
+    /* Ensure the image is below the button */
+}
+
+.cardContent {
+    position: absolute;
+    z-index: 1;
+}
+
+.position {
+    padding-top: 33px;
+    padding-bottom: 0px;
+}
+
+.teamLogo {
+    padding-top: 40px;
+    padding-bottom: 0px;
+    padding-left: 35%;
+    border-radius: 50%;
+}
+
+.playerName {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 25%;
+
+}
+
+.playerPicture {
+    padding-bottom: 0px;
+
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+.stats {
+    padding-top: 0px;
+
+    padding-left: 25%;
+}
+
+.goals,
+.gamesPlayed,
+.shooting {
+    padding-top: 0px;
+
+    padding-left: 50%;
+}
