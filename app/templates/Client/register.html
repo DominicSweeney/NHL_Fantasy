@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
+
+    <title>Registration Page</title>
+</head>
+<body>
+   <!-- Flash Message Section -->
+   {% with messages = get_flashed_messages(with_categories=true) %}
+   {% if messages %}
+           {% for category, message in messages %}
+               <p class="alert alert-{{ category }}">{{ message }}</p>
+           {% endfor %}
+   {% endif %}
+{% endwith %}
+
+    <div class="container">
+        <h1 class="header">Register</h1>
+        <form action="{{ url_for('register') }}" method="POST">
+            <label for="email" class="label">Email</label>
+            <input type="text" id="email" name="email" class="input" required>
+
+            <label for="username" class ="label">Username</label>
+            <input type="text" id="username" name="username" class="input" required>
+
+            <label for="password" class ="label">Password</label>
+            <input type="password" id="password" name="password" class="input" required>
+
+            <input type="submit" value="Register" class="submit">
+        </form>
+        <a href="/" class="link">Already have an account? Login </a>
+    </div>
+</body>
+</html>

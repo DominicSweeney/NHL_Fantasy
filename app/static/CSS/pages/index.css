@@ -1,23 +1,10 @@
-.login-container {
-    margin-bottom: 10%;
-    background: rgba(59, 60, 57, 0.7);
-    border: 2px dotted rgb(0, 0, 0);
-    color: white;
-    padding: 20px;
-    text-align: center;
-    width: 50%;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 10%;
-}
-
-.login-container h1 {
+.header {
     font-size: 40px;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
 
-.login-container label {
+.label {
     display: block;
     margin: 0.5rem 0 0.25rem;
     text-align: left;
@@ -26,8 +13,7 @@
     -webkit-text-stroke-color: black;
 }
 
-.login-container input[type="text"],
-.login-container input[type="password"] {
+.input {
     width: 97%;
     padding: 0.5rem;
     margin-bottom: 1rem;
@@ -36,13 +22,12 @@
     transition: border-color 0.3s ease;
 }
 
-.login-container input[type="text"]:focus,
-.login-container input[type="password"]:focus {
+.input:focus {
     border-color: #060606;
     outline: none;
 }
 
-.login-container input[type="submit"] {
+.submit {
     background-color: #040504;
     color: white;
     border: none;
@@ -53,11 +38,11 @@
     transition: background-color 0.3s ease;
 }
 
-.login-container input[type="submit"]:hover {
+.submit:hover {
     background-color: #57d1c9;
 }
 
-.login-container a {
+.link {
     display: block;
     margin-top: 1rem;
     color: #74ebd5;
@@ -65,7 +50,7 @@
     font-size: 0.9rem;
 }
 
-.login-container a:hover {
+.link:hover {
     text-decoration: underline;
 }
 

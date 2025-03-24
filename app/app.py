@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, abort
+from flask import Flask, render_template, redirect, url_for, request, flash,abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 
 app = Flask(__name__)
 
@@ -17,17 +18,37 @@ login_manager.login_view = 'login'  # Set the default login route for Flask-Logi
 
 # Example Model - User model for the database
 class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+
+# Example Model - Admin model for the database
+class Admin(UserMixin, db.Model):
+    __tablename__ = 'admin'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=True, nullable=False)
 
 # Initialize the database (if it doesn't exist already)
 def create_tables():
     with app.app_context():
         db.create_all()
 
+         # Check if admin user exists
+        admin_user = Admin.query.filter_by(username='georgekav2').first()
+        if not admin_user:
+            # Create an admin user if one does not exist
+            hashed_password = generate_password_hash('admin', method='pbkdf2:sha256')
+            admin_user = Admin(username='georgekav2', password=hashed_password)
+            db.session.add(admin_user)
+            db.session.commit()
+            print("Admin user created!")
+
 create_tables()
+
+
 
 # User loader for Flask-Login
 @login_manager.user_loader
@@ -35,10 +56,9 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 # Routes
-
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("Client/index.html")
 
 # Temporary route to check DELETE
 @app.route("/test")
@@ -52,19 +72,29 @@ def test():
 @login_required
 def home():
     # Render the home.html template and pass the username and email to it
-    return render_template("home.html", username=current_user.username)
+    return render_template("Client/home.html", username=current_user.username)
 
 @app.route("/howToPlay")
 def how_to_play():
-    return render_template("howToPlay.html")
+    return render_template("Client/howToPlay.html")
 
 @app.route("/VsComputer")
 def vs_computer():
-    return render_template("VsComputer.html")
+    return render_template("Client/VsComputer.html")
 
 @app.route("/pickUpCard")
 def pick_up_card():
-    return render_template("pickUpCard.html")
+    return render_template("Client/pickUpCard.html")
+
+@app.route("/card", methods=['POST'])
+def card():
+    if request.method == 'POST':
+        data = request.get_json()
+        player = data.get('cardStats')
+        opp = data.get('oppStats')
+        print("Player stats:", player)
+        print("Opponent stats:", opp)
+        return render_template("card.html", card=player, opp=opp)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -94,7 +124,7 @@ def register():
 
         flash("Registration successful!", 'success')
         return redirect(url_for('index'))
-    return render_template("register.html")
+    return render_template("Client/register.html")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -109,7 +139,7 @@ def login():
             return redirect(url_for('home'))
 
         flash('Invalid username or password', 'danger')
-    return render_template("index.html")
+    return render_template("Client/index.html")
 
 @app.route("/logout")
 @login_required
@@ -118,9 +148,51 @@ def logout():
     flash('You have been logged out successfully.', 'success')
     return redirect(url_for('index'))
 
-@app.route("/adminLogin")
+@app.route("/proxy/<path:url>")
+def proxy(url):
+    query_string = request.query_string.decode()
+    print(query_string)
+    full_url = f"{url}?{query_string}"
+    print(full_url)
+    response = requests.get(full_url)
+    return jsonify(response.json())
+
+
+@app.route("/adminLogin", methods=['GET', 'POST'])
 def admin_login():
-    return render_template("adminLogin.html")
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Fetch the admin user from the database
+        admin_user = Admin.query.filter_by(username=username).first()
+
+        # Check if the admin user exists and the password matches
+        if admin_user and check_password_hash(admin_user.password, password):
+            login_user(admin_user)
+            flash("Admin login successful!", 'success')
+            return redirect(url_for('admin_home')) # Redirect to admin area
+          
+        flash('Invalid admin credentials', 'danger')
+    return render_template("Admin/adminLogin.html")
+
+
+@app.route("/adminHome")
+@login_required
+def admin_home():
+    return render_template("Admin/adminHome.html")
+
+@app.route("/admin_table")
+def admin_table():
+    # Fetch all records from the admin table
+    admins = Admin.query.all()
+
+    # Print each admin's username and password (or other fields you want to display)
+    for admin in admins:
+        print(f"Admin Username: {admin.username}, Admin Password: {admin.password}")
+
+    # Pass the data to a template for displaying
+    return render_template("Admin/admin_table.html", admins=admins)
 
 @app.route("/manageUsers")
 @login_required
@@ -128,7 +200,7 @@ def manage_users():
     # Fetch all users from the database
     users = User.query.all()
     # Pass the users to the manageUsers.html template
-    return render_template("manageUsers.html", users=users)
+    return render_template("Admin/manageUsers.html", users=users)
 
 @app.route("/delete_user/<int:user_id>", methods=['POST'])
 @login_required
