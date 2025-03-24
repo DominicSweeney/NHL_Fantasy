@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     
-    <link href="../static/CSS/home.css" rel="stylesheet" type="text/css">
-    <link href="../static/CSS/button.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/pages/home.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/button.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -19,7 +20,7 @@
         <a href="/howToPlay" class="button-class" id="HowToPlayButton">How to Play</a>
         <a href="/VsComputer" class="button-class" id="vsComputerButton">Vs Computer</a>
         <a href="/passAndPlay" class="button-class" id="passAndPlayButton">Pass and Play</a>
-        <a href="{{ url_for('logout') }}" class="button-class" id="logoutButton">Logout</a>
+        <a href="/logout" class="button-class" id="logoutButton">Logout</a>
     </div>
 
 </body>

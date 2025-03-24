@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # App Configuration
 app.config['SECRET_KEY'] = 'your_secret_key'  # You should change this to a secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///database1.db"  # Your existing SQLite database
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///users.db"  # Your existing SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize the database and login manager
@@ -38,7 +38,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("Client/index.html")
 
 # Temporary route to check DELETE
 @app.route("/test")
@@ -52,19 +52,19 @@ def test():
 @login_required
 def home():
     # Render the home.html template and pass the username and email to it
-    return render_template("home.html", username=current_user.username)
+    return render_template("Client/home.html", username=current_user.username)
 
 @app.route("/howToPlay")
 def how_to_play():
-    return render_template("howToPlay.html")
+    return render_template("Client/howToPlay.html")
 
 @app.route("/VsComputer")
 def vs_computer():
-    return render_template("VsComputer.html")
+    return render_template("Client/VsComputer.html")
 
 @app.route("/pickUpCard")
 def pick_up_card():
-    return render_template("pickUpCard.html")
+    return render_template("Client/pickUpCard.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -94,7 +94,7 @@ def register():
 
         flash("Registration successful!", 'success')
         return redirect(url_for('index'))
-    return render_template("register.html")
+    return render_template("Client/register.html")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -109,7 +109,7 @@ def login():
             return redirect(url_for('home'))
 
         flash('Invalid username or password', 'danger')
-    return render_template("index.html")
+    return render_template("Client/index.html")
 
 @app.route("/logout")
 @login_required
@@ -117,6 +117,46 @@ def logout():
     logout_user()
     flash('You have been logged out successfully.', 'success')
     return redirect(url_for('index'))
+
+@app.route("/adminLogin")
+def admin_login():
+    return render_template("Admin/adminLogin.html")
+
+@app.route("/manageUsers")
+@login_required
+def manage_users():
+    # Fetch all users from the database
+    users = User.query.all()
+    # Pass the users to the manageUsers.html template
+    return render_template("Admin/manageUsers.html", users=users)
+
+@app.route("/delete_user/<int:user_id>", methods=['POST'])
+@login_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+
+    db.session.delete(user)
+    db.session.commit()
+    flash(f"User '{user.username}' has been deleted.", 'success')
+    return redirect(url_for('manage_users'))
+
+@app.route("/edit_user/<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def edit_user(user_id):
+    user = User.query.get_or_404(user_id)
+
+    if request.method == 'POST':
+        new_username = request.form['username']
+        new_email = request.form['email']
+
+        # Update user info
+        user.username = new_username
+        user.email = new_email
+        db.session.commit()
+        flash(f"User '{user.username}' has been updated.", 'success')
+        return redirect(url_for('manage_users'))
+
+    return render_template("editUser.html", user=user)
 
 # Main entry point for running the app
 if __name__ == '__main__':
