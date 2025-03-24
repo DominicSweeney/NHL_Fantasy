@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 
 app = Flask(__name__)
 
@@ -117,6 +118,15 @@ def logout():
     logout_user()
     flash('You have been logged out successfully.', 'success')
     return redirect(url_for('index'))
+
+@app.route("/proxy/<path:url>")
+def proxy(url):
+    query_string = request.query_string.decode()
+    print(query_string)
+    full_url = f"{url}?{query_string}"
+    print(full_url)
+    response = requests.get(full_url)
+    return jsonify(response.json())
 
 # Main entry point for running the app
 if __name__ == '__main__':

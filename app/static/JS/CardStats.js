@@ -1,31 +1,29 @@
-// https://api-web.nhle.com/v1/skater-stats-leaders/20242025/2?categories=goals&limit=100
-const topPlayersApi = "https://api-web.nhle.com/v1/skater-stats-leaders/20242025/2?categories=goals&limit=75";
-const playerStats = (id) => `https://api-web.nhle.com/v1/player/${id}/landing`;
+const proxyUrl = "/proxy/";
+const topPlayersApi = proxyUrl + "https://api-web.nhle.com/v1/skater-stats-leaders/20242025/2?categories=goals&limit=75";
+const playerStats = (id) => proxyUrl + `https://api-web.nhle.com/v1/player/${id}/landing`;
 
 async function fetchPlayerStats(){
+    
     const response = await fetch(topPlayersApi);
+    
+    
     const data = await response.json();
-
     const lastUpdated = localStorage.getItem('lastUpdated');
     const now = new Date();
 
     if (!lastUpdated || (now - new Date(lastUpdated)) > 24 * 60 * 60 * 1000) {
-        updateLocalStorage();
+        updateLocalStorage(data); // Pass the data to updateLocalStorage
         localStorage.setItem('lastUpdated', now);
     } else {
         console.log('Data is up to date.');
     }
-    }
+}
 
-function updateLocalStorage(){
-    fetch(topPlayersApi)
-        .then(response => response.json())
-        .then(data => {
-            data.data.forEach(player => {
-            localStorage.setItem(getPlayerStats(player.id));
-            });
-        })
-        .catch(error => console.error('Error updating local storage:', error));
+function updateLocalStorage(data){
+    // Removed fetch call and use the passed data
+    data.data.forEach(player => {
+        localStorage.setItem(JSON.stringify(getPlayerStats(player.id)));
+    });
 }
 
 function getPlayerStats(id){
@@ -33,6 +31,7 @@ function getPlayerStats(id){
         .then(response => response.json())
         .then(data => {
             return {
+                id: data.id,
                 firstname: data.firstname,
                 lastname: data.lastname,
                 headshot: data.headshot,
