@@ -67,6 +67,16 @@ def vs_computer():
 def pick_up_card():
     return render_template("pickUpCard.html")
 
+@app.route("/card", methods=['POST'])
+def card():
+    if request.method == 'POST':
+        data = request.get_json()
+        player = data.get('cardStats')
+        opp = data.get('oppStats')
+        print("Player stats:", player)
+        print("Opponent stats:", opp)
+        return render_template("card.html", card=player, opp=opp)
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
