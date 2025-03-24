@@ -38,7 +38,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("Client/index.html")
 
 # Temporary route to check DELETE
 @app.route("/test")
@@ -52,19 +52,19 @@ def test():
 @login_required
 def home():
     # Render the home.html template and pass the username and email to it
-    return render_template("home.html", username=current_user.username)
+    return render_template("Client/home.html", username=current_user.username)
 
 @app.route("/howToPlay")
 def how_to_play():
-    return render_template("howToPlay.html")
+    return render_template("Client/howToPlay.html")
 
 @app.route("/VsComputer")
 def vs_computer():
-    return render_template("VsComputer.html")
+    return render_template("Client/VsComputer.html")
 
 @app.route("/pickUpCard")
 def pick_up_card():
-    return render_template("pickUpCard.html")
+    return render_template("Client/pickUpCard.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -94,7 +94,7 @@ def register():
 
         flash("Registration successful!", 'success')
         return redirect(url_for('index'))
-    return render_template("register.html")
+    return render_template("Client/register.html")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -109,7 +109,7 @@ def login():
             return redirect(url_for('home'))
 
         flash('Invalid username or password', 'danger')
-    return render_template("index.html")
+    return render_template("Client/index.html")
 
 @app.route("/logout")
 @login_required
@@ -120,7 +120,7 @@ def logout():
 
 @app.route("/adminLogin")
 def admin_login():
-    return render_template("adminLogin.html")
+    return render_template("Admin/adminLogin.html")
 
 @app.route("/manageUsers")
 @login_required
@@ -128,7 +128,7 @@ def manage_users():
     # Fetch all users from the database
     users = User.query.all()
     # Pass the users to the manageUsers.html template
-    return render_template("manageUsers.html", users=users)
+    return render_template("Admin/manageUsers.html", users=users)
 
 @app.route("/delete_user/<int:user_id>", methods=['POST'])
 @login_required
