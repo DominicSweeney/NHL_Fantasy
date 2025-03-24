@@ -118,6 +118,14 @@ def logout():
     flash('You have been logged out successfully.', 'success')
     return redirect(url_for('index'))
 
+@app.route("/manageUsers")
+@login_required
+def manage_users():
+    # Fetch all users from the database
+    users = User.query.all()
+    # Pass the users to the manageUsers.html template
+    return render_template("manageUsers.html", users=users)
+
 # Main entry point for running the app
 if __name__ == '__main__':
     app.run(debug=True)
