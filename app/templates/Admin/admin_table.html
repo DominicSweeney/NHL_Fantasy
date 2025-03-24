@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
+    <title>Admin Table</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Admin Table</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr>
+                    <td>{{ admin.username }}</td>
+                    <td>{{ admin.password }}</td>  <!-- Be cautious, displaying password directly may not be safe -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

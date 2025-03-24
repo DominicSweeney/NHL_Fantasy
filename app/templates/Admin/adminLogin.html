@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
-    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
     <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
-    <title>Login Page</title>
+    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
+    <title>Admin Login Page</title>
 </head>
 <body>
     <!-- Flash Message Section -->
@@ -19,8 +19,8 @@
     {% endwith %}
 
     <div class="container">
-        <h1 class="header">Login</h1>
-        <form action="{{ url_for('login') }}" method="POST">
+        <h1 class="header">Admin Login</h1>
+        <form action="{{ url_for('admin_login') }}" method="POST">
             <label for="username" class="label">Username</label>
             <input type="text" id="username" name="username" class="input" required>
 
@@ -29,8 +29,7 @@
 
             <input type="submit" value="Login" class="submit">
         </form>
-        <a href="{{ url_for('register') }}" class="link">Don't have an account? Register</a>
-        <a href="{{ url_for('admin_login') }}" class="link">Admin Login</a>
+        <a href="/" class="link">Not an Admin? Login as User</a>
     </div>
 </body>
 </html>
