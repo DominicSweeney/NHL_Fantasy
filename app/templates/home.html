@@ -12,13 +12,15 @@
 
 <body>
 
+    <h1 id="HomeTitle">Welcome To Hockey Heroes, {{ username }}!</h1>
 
-
-
-    <a href="/howToPlay" class="button-class" id="HowToPlayButton">How to Play</a>
-    <h1 id="HomeTitle">Welcome To Hockey Heroes</h1>
-    <a href="/VsComputer" class="button-class" id="vsComputerButton">Vs Computer</a>
-    <a href="/passAndPlay" class="button-class" id="passAndPlayButton">Pass and Play</a>
+    <!-- Container for buttons -->
+    <div id="buttonContainer">
+        <a href="/howToPlay" class="button-class" id="HowToPlayButton">How to Play</a>
+        <a href="/VsComputer" class="button-class" id="vsComputerButton">Vs Computer</a>
+        <a href="/passAndPlay" class="button-class" id="passAndPlayButton">Pass and Play</a>
+        <a href="{{ url_for('logout') }}" class="button-class" id="logoutButton">Logout</a>
+    </div>
 
 </body>
 

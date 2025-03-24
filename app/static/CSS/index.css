@@ -1,0 +1,95 @@
+.login-container {
+    margin-bottom: 10%;
+    background: rgba(59, 60, 57, 0.7);
+    border: 2px dotted rgb(0, 0, 0);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 10%;
+}
+
+.login-container h1 {
+    font-size: 40px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.login-container label {
+    display: block;
+    margin: 0.5rem 0 0.25rem;
+    text-align: left;
+    font-size: 30px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 97%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #060606;
+    outline: none;
+}
+
+.login-container input[type="submit"] {
+    background-color: #040504;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.login-container input[type="submit"]:hover {
+    background-color: #57d1c9;
+}
+
+.login-container a {
+    display: block;
+    margin-top: 1rem;
+    color: #74ebd5;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+
+body {
+    background-image: url("../images/NHLlogo.jpg");
+    background-size: 10cm;
+    background-position: center;
+
+    margin: 0px;
+}
