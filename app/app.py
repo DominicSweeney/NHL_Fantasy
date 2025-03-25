@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, abort
+from flask import Flask, render_template, redirect, url_for, request, flash,abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 
 app = Flask(__name__)
 
@@ -85,6 +86,16 @@ def vs_computer():
 def pick_up_card():
     return render_template("Client/pickUpCard.html")
 
+@app.route("/card", methods=['POST'])
+def card():
+    if request.method == 'POST':
+        data = request.get_json()
+        player = data.get('cardStats')
+        opp = data.get('oppStats')
+        print("Player stats:", player)
+        print("Opponent stats:", opp)
+        return render_template("card.html", card=player, opp=opp)
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -136,6 +147,16 @@ def logout():
     logout_user()
     flash('You have been logged out successfully.', 'success')
     return redirect(url_for('index'))
+
+@app.route("/proxy/<path:url>")
+def proxy(url):
+    query_string = request.query_string.decode()
+    print(query_string)
+    full_url = f"{url}?{query_string}"
+    print(full_url)
+    response = requests.get(full_url)
+    return jsonify(response.json())
+
 
 @app.route("/adminLogin", methods=['GET', 'POST'])
 def admin_login():

@@ -27,14 +27,14 @@ h3 {
 }
 
 .position {
-    padding-top: 33px;
+    padding-top: 80%;
     padding-bottom: 0px;
 }
 
 .teamLogo {
-    padding-top: 40px;
+    padding-top: 82%;
     padding-bottom: 0px;
-    padding-left: 35%;
+    padding-left: 40%;
     border-radius: 50%;
 }
 
@@ -47,7 +47,7 @@ h3 {
 
 .playerPicture {
     padding-bottom: 0px;
-
+    position: relative;
 }
 
 .column {
@@ -55,11 +55,27 @@ h3 {
     width: 50%;
 }
 
+
 /* Clear floats after the columns */
 .row:after {
     content: "";
     display: table;
     clear: both;
+}
+
+.column-card-left {
+   float: left;
+    width:40%;
+}
+
+.column-card-right {
+    float: right;
+    width:40%;
+}
+
+.column-card-middle {
+    float: left;
+    width:20%;
 }
 
 
@@ -75,4 +91,42 @@ h3 {
     padding-top: 0px;
 
     padding-left: 50%;
+}
+
+.blankCard {
+    position: relative;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    /* Make sure the container takes the full height of the viewport */
+    margin-top: 15%;
+    
+    
+}
+
+.usersName{
+    background-color: chartreuse;
+    border: 2px solid black;
+    width: 20%;
+    margin-bottom: 5%;
+    text-align: center;
+    font-size: auto;
+}
+
+.opponentName{
+    background-color: red;
+    border: 2px solid black;
+    width: 20%;
+    margin-bottom: 5%;
+    text-align: center;
+    font-size: auto;
+}
+
+body {
+    background-image: url("../../images/vsBackround-resized-again.jpeg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }

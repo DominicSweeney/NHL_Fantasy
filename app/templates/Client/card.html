@@ -5,56 +5,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card</title>
-    <link rel="stylesheet" href="../static/CSS/components/card.css">
+    <link rel="stylesheet" href="../../static/CSS/components/card.css">
+    <link rel="stylesheet" href="../../static/CSS/components/higher&LowerBox.css">
+    
+    
+
 </head>
 
 <body>
-    <div class="card">
-        <img class="formatedCard" src="../static/images/FormattedCard.png" alt="Formatted Card" height="800"
-            width="800">
-        <div class="cardContent">
-            <div class="row">
-                <div class="column"> <img class="teamLogo" src="../static/images/test-card-team.png" alt="Team logo"
-                        height="50" width="50"> </div>
-                <div class="column">
-                    <h2 class="position">{[Position]}</h2>
+
+    <div class="row">
+        <div class="column-card-left">
+            <div class="card">
+                <div class="usersName">
+                    <h4>
+                        {{username}}
+                    </h4>
+                </div>
+
+
+                <img class="formatedCard" src="../../static/images/FormattedCard.png" alt="Formatted Card" height="800"
+                    width="800">
+                <div class="cardContent">
+                    <div class="row">
+                        <div class="column"> <img class="teamLogo" src={{card.teamlogo}}
+                                alt="Team logo" height="50" width="50"> </div>
+                        <div class="column">
+                            <h2 class="position">{{card.position}}</h2>
+                        </div>
+                    </div>
+
+                    <img class="playerPicture" src={{card.headshot}} alt="Player picture"
+                        height="300" width="350">
+                    <h2 class="playerName">{{card.firstname}} {{card.lastname}}</h2>
+                    <div class="stats">
+                        <div class="row">
+                            <div class="column">
+                                <h3 class="height">{{card.height}}</h3>
+                            </div>
+                            <div class="column">
+                                <h3 class="goals">{{card.career.goals}}</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column">
+                                <h3 class="weight">{{card.weight}}</h3>
+                            </div>
+                            <div class="column">
+                                <h3 class="gamesPlayed">{{card.career.gamesPlayed}}</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column">
+                                <h3 class="assist">{{card.career.assists}}</h3>
+                            </div>
+                            <div class="column">
+                                <h3 class="shooting">{{card.career.shootingPctg}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
-
-            <img class="playerPicture" src="../static/images/test-card-player.jpg" alt="Player picture" height="300"
-                width="350">
-            <h2 class="playerName">{[Name]}</h2>
-            <div class="stats">
+        </div>
+        <div class="column-card-middle">
+            <div class="higherOrLower" style="display: none;">
+                <h2>{{stat}} Selected, Higher or Lower?</h2>
                 <div class="row">
-                    <div class="column">
-                        <h3 class="height">NO</h3>
+                    <div class="column2">
+                        <button id="higherChosen">
+                            <img class="higher" src="../../static/images/upArrow.png" alt="higher" height="50" width="50">
+                        </button>
                     </div>
-                    <div class="column">
-                        <h3 class="goals">NO</h3>
+                    <div class="column2">
+                        <h3> OR</h3>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <h3 class="weight">NO</h3>
-                    </div>
-                    <div class="column">
-                        <h3 class="gamesPlayed">NO</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <h3 class="assist">NO</h3>
-                    </div>
-                    <div class="column">
-                        <h3 class="shooting">NO</h3>
+                    <div class="column2">
+                        <button id="lowerChosen">
+                            <img class="lower" src="../../static/images/downArrow.png" alt="lower" height="50" width="50">
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="column-card-right">
 
+            <div class=blankCard>
+                <div class="opponentName">
+                    <h4>
+                        CPU
+                    </h4>
+                </div>
 
+                <img class="playerCard" src="../../static/images/PlayerCard.png" alt="Player Card" height="800"
+                    width="800">
+
+                    
+            </div>
         </div>
     </div>
 
+    <button id="higherOrLower">Click me</button>
+
+    
+
+
 </body>
+<script src="../../static/JS/higherOrLower.js"></script>
 
 </html>
