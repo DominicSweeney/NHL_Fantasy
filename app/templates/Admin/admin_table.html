@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
-    <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
-    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
-    <title>Admin Table</title>
+    <title>Admin Users</title>
+    <link href="{{ url_for('static', filename='CSS/pages/adminStyles.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='CSS/components/basics.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='CSS/components/container.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='CSS/pages/index.css') }}" rel="stylesheet" type="text/css">
 </head>
+
 <body>
     <div class="container">
-        <h1 class="header">Admin Table</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Password</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for admin in admins %}
-                <tr>
-                    <td>{{ admin.username }}</td>
-                    <td>{{ admin.password }}</td>  <!-- Be cautious, displaying password directly may not be safe -->
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <header>
+            <h1 class ="header">Admin Users</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('admin_home') }}" class ="link">Dashboard</a></li>
+                    <li><a href="{{ url_for('manage_users') }}" class ="link">Manage Users</a></li>
+                    <li><a href="{{ url_for('logout') }}" class ="link">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <h2>List of Admins</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for admin in admins %}
+                    <tr>
+                        <td>{{ admin.username }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+
+        <footer>
+            <p>2025 NHL Fantasy. All rights reserved.</p>
+        </footer>
     </div>
 </body>
 </html>
