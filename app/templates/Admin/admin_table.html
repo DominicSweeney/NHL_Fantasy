@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Users</title>
+    <title>Admin Table</title>
     <link href="{{ url_for('static', filename='CSS/pages/adminStyles.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url_for('static', filename='CSS/components/basics.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url_for('static', filename='CSS/components/container.css') }}" rel="stylesheet" type="text/css">
@@ -12,19 +12,19 @@
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1 class ="header">Admin Users</h1>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('admin_home') }}" class ="link">Dashboard</a></li>
-                    <li><a href="{{ url_for('manage_users') }}" class ="link">Manage Users</a></li>
-                    <li><a href="{{ url_for('logout') }}" class ="link">Logout</a></li>
+    <header>
+        <nav class="navbar">
+                <h1>Admin Table</h1>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('admin_home') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('manage_users') }}">Manage Users</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
-            </nav>
-        </header>
+        </nav>
+    </header>
 
-        <main>
+        <div class="container">
             <h2>List of Admins</h2>
             <table>
                 <thead>
@@ -40,11 +40,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </main>
-
-        <footer>
-            <p>2025 NHL Fantasy. All rights reserved.</p>
-        </footer>
-    </div>
+        </div>
 </body>
 </html>
