@@ -5,22 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
     <link href="../static/CSS/pages/adminStyles.css" rel="stylesheet" type="text/css">
-    
+    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <header>
-        <h1>Manage Users</h1>
-        <nav>
-            <ul>
-                <li><a href="adminHome.html">Admin Home</a></li>
-                <li><a href="settings.html">Settings</a></li>
-                <li><a href="logout.html">Logout</a></li>
-            </ul>
+        <nav class="navbar">
+                <h1>Manage Users</h1>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('admin_home') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_table') }}">Admin Table</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
         </nav>
     </header>
 
- 
-    <div class="container">
+    <main>
         {% for user in users %}
         <div class="user-card">
             <h3>{{ user.username }}</h3>
@@ -38,8 +40,6 @@
                 </form>
             </div>
         </div>
-        {% endfor %}
-    </div>
-    
+        {% endfor %}    
 </body>
 </html>
