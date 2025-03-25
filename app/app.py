@@ -14,11 +14,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize the database and login manager
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'  # Set the default login route for Flask-Login
+login_manager.login_view = 'user_login'  # Set the default login route for Flask-Login
 
 # Example Model - User model for the database
 class User(UserMixin, db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
@@ -35,30 +35,39 @@ class Admin(UserMixin, db.Model):
 def create_tables():
     with app.app_context():
         db.create_all()
-
-         # Check if admin user exists
-        admin_user = Admin.query.filter_by(username='georgekav2').first()
-        if not admin_user:
-            # Create an admin user if one does not exist
-            hashed_password = generate_password_hash('admin', method='pbkdf2:sha256')
-            admin_user = Admin(username='georgekav2', password=hashed_password)
-            db.session.add(admin_user)
-            db.session.commit()
-            print("Admin user created!")
-
 create_tables()
-
-
 
 # User loader for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    # First, check if the user is an admin
+    admin_user = Admin.query.get(int(user_id))
+    if admin_user:
+        return admin_user
+
+    # If not found, check if the user is a regular user
+    user = User.query.get(int(user_id))
+    return user
 
 # Routes
-@app.route("/")
-def index():
-    return render_template("Client/index.html")
+@app.route("/", methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))  # Redirect already logged-in users
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('home'))  # Redirect to home after login
+
+        flash('Invalid username or password', 'danger')
+
+    return render_template("Client/index.html")  # Show login page
 
 # Temporary route to check DELETE
 @app.route("/test")
@@ -126,27 +135,20 @@ def register():
         return redirect(url_for('index'))
     return render_template("Client/register.html")
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        user = User.query.filter_by(username=username).first()
-
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for('home'))
-
-        flash('Invalid username or password', 'danger')
-    return render_template("Client/index.html")
-
 @app.route("/logout")
 @login_required
 def logout():
-    logout_user()
+    # Check if the current user is an admin
+    if isinstance(current_user, Admin):  # If the logged-in user is an admin
+        logout_user()  # Log out the admin
+        flash('You have been logged out successfully.', 'success')
+        return redirect(url_for('admin_login'))  # Redirect to the admin login page
+    
+    # If the logged-in user is a regular user
+    logout_user()  # Log out the user
     flash('You have been logged out successfully.', 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))  # Redirect to the user login page
+
 
 @app.route("/proxy/<path:url>")
 def proxy(url):
@@ -156,7 +158,6 @@ def proxy(url):
     print(full_url)
     response = requests.get(full_url)
     return jsonify(response.json())
-
 
 @app.route("/adminLogin", methods=['GET', 'POST'])
 def admin_login():
@@ -170,12 +171,10 @@ def admin_login():
         # Check if the admin user exists and the password matches
         if admin_user and check_password_hash(admin_user.password, password):
             login_user(admin_user)
-            flash("Admin login successful!", 'success')
             return redirect(url_for('admin_home')) # Redirect to admin area
           
         flash('Invalid admin credentials', 'danger')
     return render_template("Admin/adminLogin.html")
-
 
 @app.route("/adminHome")
 @login_required
