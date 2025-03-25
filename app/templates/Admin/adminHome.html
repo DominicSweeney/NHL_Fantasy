@@ -15,27 +15,10 @@
 <body>
     <h1 id="HomeTitle">Welcome to the Admin Dashboard, {{ username }}</h1>
   
-    <!-- Container for buttons -->
     <div id="buttonContainer">
         <a href="{{ url_for('manage_users') }}" class="button-class" id="HowToPlayButton">Manage Users</a>
         <a href="{{ url_for('admin_table') }}" class="button-class" id="vsComputerButton">Admin Table</a>
         <a href="/logout" class="button-class" id="passAndPlayButton">Logout</a>
     </div>
-
-    <script>
-        fetch('/recent-activities') // Fetch from Flask route
-            .then(response => response.json())
-            .then(data => {
-                let activityList = document.getElementById('activity-list');
-                activityList.innerHTML = ""; // Clear placeholder text
-                
-                data.forEach(activity => {
-                    let li = document.createElement('li');
-                    li.textContent = activity.description; // Assuming MySQL has a 'description' column
-                    activityList.appendChild(li);
-                });
-            })
-            .catch(error => console.error('Error fetching activities:', error));
-    </script>
 </body>
 </html>

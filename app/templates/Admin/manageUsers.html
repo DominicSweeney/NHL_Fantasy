@@ -13,11 +13,13 @@
     <header>
         <nav class="navbar">
                 <h1>Manage Users</h1>
+
                 <ul class="nav-links">
                     <li><a href="{{ url_for('admin_home') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('admin_table') }}">Admin Table</a></li>
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
+                
         </nav>
     </header>
 
@@ -27,11 +29,12 @@
             <h3>{{ user.username }}</h3>
             <p>Email: {{ user.email }}</p>
             <p>Role: User</p>
+
             <div class="actions">    
-                <!-- Delete User Form -->
                 <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
                     <button type="submit" class="delete">Delete</button>
                 </form>
+
             </div>
         </div>
         {% endfor %}    
@@ -40,10 +43,10 @@
             document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".delete").forEach(button => {
             button.addEventListener("click", function (event) {
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault(); 
             let confirmDelete = confirm("Are you sure you want to delete this user?");
             if (confirmDelete) {
-                this.closest("form").submit(); // Submit form if confirmed
+                this.closest("form").submit(); 
             }
         });
     });
