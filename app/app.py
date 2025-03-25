@@ -9,15 +9,15 @@ app = Flask(__name__)
 
 # App Configuration
 app.config['SECRET_KEY'] = 'your_secret_key'  # You should change this to a secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///users.db"  # Your existing SQLite database
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///users.db"  # SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize the database and login manager
+# Initialise SQLAlchemy and login manager
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
-login_manager.login_view = 'user_login'  # Set the default login route for Flask-Login
+login_manager.login_view = 'user_login'  
 
-# Example Model - User model for the database
+# User table for the database
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -25,14 +25,14 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
 
-# Example Model - Admin model for the database
+# Admin table for the database
 class Admin(UserMixin, db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
 
-# Initialize the database (if it doesn't exist already)
+# Initialising the database
 def create_tables():
     with app.app_context():
         db.create_all()
@@ -41,21 +41,16 @@ create_tables()
 # User loader for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    # First, check if the user is an admin
-    admin_user = Admin.query.get(int(user_id))
+    admin_user = Admin.query.get(int(user_id))  # Check if the user is an admin
     if admin_user:
         return admin_user
 
-    # If not found, check if the user is a regular user
-    user = User.query.get(int(user_id))
+    user = User.query.get(int(user_id))     # Check if the user is a regular user
     return user
 
-# Routes
+# All Routes
 @app.route("/", methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))  # Redirect already logged-in users
-
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -64,11 +59,11 @@ def login():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('home'))  # Redirect to home after login
+            return redirect(url_for('home'))  # Go to home page after login
 
         flash('Invalid username or password', 'danger')
 
-    return render_template("Client/index.html")  # Show login page
+    return render_template("Client/index.html") 
 
 # Temporary route to check DELETE
 @app.route("/test")
@@ -81,8 +76,7 @@ def test():
 @app.route("/home")
 @login_required
 def home():
-    # Render the home.html template and pass the username and email to it
-    return render_template("Client/home.html", username=current_user.username)
+    return render_template("Client/home.html", username=current_user.username) 
 
 @app.route("/howToPlay")
 def how_to_play():
@@ -124,7 +118,7 @@ def register():
             flash("Email already registered", 'danger')
             return redirect(url_for('register'))
 
-        # Hash password
+        # Password hashing
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
         new_user = User(username=username, password=hashed_password, email=email)
@@ -140,16 +134,15 @@ def register():
 @login_required
 def logout():
     # Check if the current user is an admin
-    if isinstance(current_user, Admin):  # If the logged-in user is an admin
-        logout_user()  # Log out the admin
+    if isinstance(current_user, Admin):  
+        logout_user()  
         flash('You have been logged out successfully.', 'success')
-        return redirect(url_for('admin_login'))  # Redirect to the admin login page
+        return redirect(url_for('admin_login'))     # Redirect to the admin login page
     
     # If the logged-in user is a regular user
-    logout_user()  # Log out the user
+    logout_user()  
     flash('You have been logged out successfully.', 'success')
     return redirect(url_for('login'))  # Redirect to the user login page
-
 
 @app.route("/proxy/<path:url>")
 def proxy(url):
@@ -172,7 +165,7 @@ def admin_login():
         # Check if the admin user exists and the password matches
         if admin_user and check_password_hash(admin_user.password, password):
             login_user(admin_user)
-            return redirect(url_for('admin_home')) # Redirect to admin area
+            return redirect(url_for('admin_home')) 
           
         flash('Invalid admin credentials', 'danger')
     return render_template("Admin/adminLogin.html")
@@ -184,12 +177,12 @@ def admin_home():
 
 @app.route("/admin_table")
 def admin_table():
-    # Fetch all records from the admin table
+    # Get all records from the admin table
     admins = Admin.query.all()
 
-    # Print each admin's username and password (or other fields you want to display)
+    # Print each admin's username
     for admin in admins:
-        print(f"Admin Username: {admin.username}, Admin Password: {admin.password}")
+        print(f"Admin Username: {admin.username}")
 
     # Pass the data to a template for displaying
     return render_template("Admin/admin_table.html", admins=admins)
@@ -197,7 +190,7 @@ def admin_table():
 @app.route("/manageUsers")
 @login_required
 def manage_users():
-    # Fetch all users from the database
+    # Get all users from the database
     users = User.query.all()
     # Pass the users to the manageUsers.html template
     return render_template("Admin/manageUsers.html", users=users)
@@ -205,13 +198,12 @@ def manage_users():
 @app.route("/delete_user/<int:user_id>", methods=['POST'])
 @login_required
 def delete_user(user_id):
-    user = User.query.get_or_404(user_id)
+    user = User.query.get_or_404(user_id)   #Check if the user exists
 
     db.session.delete(user)
     db.session.commit()
 
     return redirect(url_for('manage_users'))
-
 
 # Function to fetch player stats from the API
 def get_player_stats(player_id):
@@ -219,10 +211,10 @@ def get_player_stats(player_id):
     response = requests.get(url)
     
     if response.status_code == 200:
-        return response.json()  # Return the data as JSON
+        return response.json()  
     else:
-        return None  # Handle errors
-
+        return None 
+    
 @app.route("/player/<int:player_id>")
 def player_profile(player_id):
     player_data = get_player_stats(player_id)
