@@ -133,7 +133,7 @@ def register():
         db.session.commit()
 
         flash("Registration successful!", 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     return render_template("Client/register.html")
 
 @app.route("/logout")
@@ -180,7 +180,7 @@ def admin_login():
 @app.route("/adminHome")
 @login_required
 def admin_home():
-    return render_template("Admin/adminHome.html")
+    return render_template("Admin/adminHome.html", username=current_user.username)
 
 @app.route("/admin_table")
 def admin_table():
@@ -209,26 +209,8 @@ def delete_user(user_id):
 
     db.session.delete(user)
     db.session.commit()
-    flash(f"User '{user.username}' has been deleted.", 'success')
+
     return redirect(url_for('manage_users'))
-
-@app.route("/edit_user/<int:user_id>", methods=['GET', 'POST'])
-@login_required
-def edit_user(user_id):
-    user = User.query.get_or_404(user_id)
-
-    if request.method == 'POST':
-        new_username = request.form['username']
-        new_email = request.form['email']
-
-        # Update user info
-        user.username = new_username
-        user.email = new_email
-        db.session.commit()
-        flash(f"User '{user.username}' has been updated.", 'success')
-        return redirect(url_for('manage_users'))
-
-    return render_template("editUser.html", user=user)
 
 
 # Function to fetch player stats from the API

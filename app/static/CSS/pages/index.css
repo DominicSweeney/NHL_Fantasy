@@ -70,6 +70,7 @@
     color: white;
 }
 
+
 /* General Navbar Styling */
 .navbar {
     display: flex;
@@ -130,4 +131,15 @@ nav ul li a {
     font-size: 1.1rem; /* Slightly larger font size for links */
     border-radius: 4px; /* Rounded corners for the links */
     transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Table styling */
+th {
+    color: white; /* White text color */
+    padding: 0.5rem 1rem; /* Padding inside the header cells */
+    font-size: larger;
+}
+
+td {
+    font-size: larger; /* Padding inside the table cells */
 }
