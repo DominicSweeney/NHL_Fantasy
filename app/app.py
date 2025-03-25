@@ -1,3 +1,4 @@
+import requests
 from flask import Flask, render_template, redirect, url_for, request, flash,abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -228,6 +229,30 @@ def edit_user(user_id):
         return redirect(url_for('manage_users'))
 
     return render_template("editUser.html", user=user)
+
+
+# Function to fetch player stats from the API
+def get_player_stats(player_id):
+    url = f"https://some-nhl-api.com/players/{player_id}"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        return response.json()  # Return the data as JSON
+    else:
+        return None  # Handle errors
+
+@app.route("/player/<int:player_id>")
+def player_profile(player_id):
+    player_data = get_player_stats(player_id)
+    
+    if player_data:
+        return render_template("player_profile.html", player=player_data)
+    else:
+        return "Player not found", 404
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 
 # Main entry point for running the app
 if __name__ == '__main__':
