@@ -33,33 +33,34 @@ function randomPlayer(){
     if (usedPlayers.length >=70) {
         console.log("Not enough players, resetting lists.");
         localStorage.setItem("usedPlayers", null);
-        randomPlayer(); // Call the function recursively
+        return stats = randomPlayer(); // Call the function recursively
     } else {
         let randomPlayer = playerIds[Math.floor(Math.random() * playerIds.length)];
         if (usedPlayers.includes(randomPlayer)) {
             console.log("Player already used, picking another.");
-            randomPlayer(); // Return the result of the recursive call
+            return stats = randomPlayer();
         } else {
             usedPlayers.push(randomPlayer);
             localStorage.setItem("usedPlayers", JSON.stringify(usedPlayers));
             console.log("Selected player ID:", randomPlayer);
             return randomPlayer;
+            
         }
     }
 }
 
-document.getElementById("pickCard").addEventListener("click", async () => {
-    console.log("clicked");
-    const cardStats = await fetchStats(randomPlayer());
-    const oppStats = await fetchStats(randomPlayer());
-    fetch("/card", {
-        headers: {
-        "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify({ cardStats, oppStats })
-    });
+
+console.log("clicked");
+const cardStats = await fetchStats(randomPlayer());
+const oppStats = await fetchStats(randomPlayer());
+fetch("/card", {
+    headers: {
+    "Content-Type": "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({ cardStats, oppStats })
 });
+    
 
 
 
