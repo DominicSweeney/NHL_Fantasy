@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, redirect, url_for, request, flash,abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -130,19 +129,13 @@ def vs_computer():
 def pick_up_card():
     return render_template("Client/pickUpCard.html")
 
-@app.route("/card", methods=['POST'])
-def card():
-    if request.method == 'POST':
-        data = request.get_json()
-        player = data.get('cardStats')
-        opp = data.get('oppStats')
-        print("Player stats:", player)
-        print("Opponent stats:", opp)
-        return render_template("card.html", card=player, opp=opp)
+@app.route("/card")
+def cards():
+    return render_template("Client/card.html", username=current_user.username)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
+    if request.method == 'POST':    
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
