@@ -1,3 +1,10 @@
+.user-card-container {
+    margin: 10px 10px 10px 10px;
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap into multiple rows */
+    gap: 1rem; /* Add gap between cards */
+}
+
 .user-card {
     background: #ffffff; /* White background for cards */
     border: 1px solid #ddd;
