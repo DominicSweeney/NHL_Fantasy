@@ -9,7 +9,6 @@
     <title>Admin Login Page</title>
 </head>
 <body>
-    <!-- Flash Message Section -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -27,7 +26,7 @@
             <label for="password" class="label">Password</label>
             <input type="password" id="password" name="password" class="input" required>
 
-            <input type="submit" value="Login" class="submit">
+            <input type="submit" value="Login" class="submit"><br><br>
         </form>
         <a href="/" class="link">Not an Admin? Login as User</a>
     </div>

@@ -10,7 +10,6 @@
     <title>Registration Page</title>
 </head>
 <body>
-   <!-- Flash Message Section -->
    {% with messages = get_flashed_messages(with_categories=true) %}
    {% if messages %}
            {% for category, message in messages %}
@@ -31,7 +30,7 @@
             <label for="password" class ="label">Password</label>
             <input type="password" id="password" name="password" class="input" required>
 
-            <input type="submit" value="Register" class="submit">
+            <input type="submit" value="Register" class="submit"><br><br>
         </form>
         <a href="/" class="link">Already have an account? Login </a>
     </div>

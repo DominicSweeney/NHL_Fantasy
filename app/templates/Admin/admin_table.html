@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
-    <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
-    <link href="../static/CSS/components/basics.css" rel="stylesheet" type="text/css">
     <title>Admin Table</title>
+    <link href="{{ url_for('static', filename='CSS/pages/adminStyles.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='CSS/components/basics.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='CSS/components/container.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='CSS/pages/index.css') }}" rel="stylesheet" type="text/css">
 </head>
+
 <body>
-    <div class="container">
-        <h1 class="header">Admin Table</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Password</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for admin in admins %}
-                <tr>
-                    <td>{{ admin.username }}</td>
-                    <td>{{ admin.password }}</td>  <!-- Be cautious, displaying password directly may not be safe -->
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <header>
+        <nav class="navbar">
+            <h1>List of Admins</h1>
+
+            <ul class="nav-links">
+                <li><a href="{{ url_for('admin_home') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('manage_users') }}">Manage Users</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Admin List Section -->
+        <div class="user-card-container">
+            {% for admin in admins %}
+                    <div class="user-card">
+                        <h3>{{ admin.username }}</h3>
+                        <p>Role: {{ admin.role }}</p>
+                        <p>Date Joined: {{ admin.date_joined }}</p>
+                        <p>Last Login: {{ admin.last_login }}</p>
+                    </div>
+            {% endfor %}
+        </div>
+    </main>
 </body>
 </html>
