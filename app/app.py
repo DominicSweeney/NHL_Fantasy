@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -25,12 +26,46 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
 
+    last_login = db.Column(db.DateTime, default=datetime, onupdate=datetime)
+    player_rank = db.Column(db.String(50), nullable=False, default="Bronze")
+    total_games_played = db.Column(db.Integer, nullable=False, default=0)
+    wins = db.Column(db.Integer, nullable=False, default=0)
+    losses = db.Column(db.Integer, nullable=False, default=0)
+    win_rate = db.Column(db.Float, nullable=False, default=0.0)
+
+    def update_stats(self):
+        """Recalculate win rate and update rank based on wins."""
+        if self.total_games_played > 0:
+            self.win_rate = round((self.wins / self.total_games_played) * 100, 2)
+        else:
+            self.win_rate = 0.0
+        
+        # Rank update logic based on win count
+        if self.wins >= 50:
+            self.player_rank = "Prestige"
+        elif self.wins >= 40:
+            self.player_rank = "Diamond"
+        elif self.wins >= 30:
+            self.player_rank = "Platinum"
+        elif self.wins >= 20:
+            self.player_rank = "Gold"
+        elif self.wins >= 10:
+            self.player_rank = "Silver"
+        else:
+            self.player_rank = "Bronze"
+        
+        db.session.commit()
+
 # Admin table for the database
 class Admin(UserMixin, db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
+
+    role = db.Column(db.String(50), nullable=False, default="Admin")
+    last_login = db.Column(db.DateTime, default=datetime, onupdate=datetime)
+    date_joined = db.Column(db.DateTime, default=datetime)
 
 # Initialising the database
 def create_tables():
@@ -48,6 +83,10 @@ def load_user(user_id):
     user = User.query.get(int(user_id))     # Check if the user is a regular user
     return user
 
+def update_last_login(user):
+    user.last_login = datetime.utcnow()
+    db.session.commit()
+
 # All Routes
 @app.route("/", methods=['GET', 'POST'])
 def login():
@@ -59,6 +98,7 @@ def login():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
+            update_last_login(user)
             return redirect(url_for('home'))  # Go to home page after login
 
         flash('Invalid username or password', 'danger')
