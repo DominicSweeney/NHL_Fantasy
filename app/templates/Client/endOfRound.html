@@ -5,21 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../static/CSS/components/card.css" rel="stylesheet" type="text/css">
     <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
     <title>Round Result</title>
 </head>
 <body>
-    <div class="container">
+    <div class="larger-container">
         <div class="result-message" id="resultMessage">
             <!-- Result message will be dynamically inserted here -->
         </div>
+
+        <!-- Scoreboard below result message -->
+    <div class="scoreboard">
+        <div class="score-item">
+            <span id="userLabel"></span>
+            <span id="userScore"></span>
+        </div>
+        <span id="scoreSeparator"> - </span>
+        <div class="score-item">
+            <span id="computerLabel"></span>
+            <span id="computerScore"></span>
+        </div>  
+    </div><br><br>
+        
         <div class="redirect-message">
             Redirecting back to the game...
         </div>
     </div>
 
     <script>
+        // Example: Replace these with actual score values
+        let userScore = 1;  // Example score for the user
+        let computerScore = 0;  // Example score for the computer
+
+        // Update the score dynamically in the HTML
+        document.getElementById("userScore").textContent = `User: ${userScore}`;
+        document.getElementById("computerScore").textContent = `Computer: ${computerScore}`;
+
         // Example: Replace this with actual logic to determine the winner
-        const winner = "user"; // or "computer"
+        const winner = "user"; // or "computer" or "tie"
 
         const resultMessage = document.getElementById("resultMessage");
         if (winner === "user") {

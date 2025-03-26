@@ -187,10 +187,59 @@ body {
 
 /* End of round */
 .result-message {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: 3rem;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
 }
+
 .redirect-message {
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: #ffffff;
 }
+
+/* Styling for the scoreboard container */
+.scoreboard {
+    display: flex;
+    justify-content: center;   /* Centers the content horizontally */
+    align-items: center;       /* Centers vertically */
+    font-size: 1.75em;            /* Large font size */
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Styling for each score item (User/Computer labels and scores) */
+.score-item {
+    text-align: center;
+    margin: 0 20px;           /* Space between user and computer sections */
+}
+
+/* Styling for the label (User/Computer) */
+#userLabel, #computerLabel {
+    display: block;           /* Makes the label appear above the score */
+    font-size: 1em;           /* Smaller font size for the label */
+    font-weight: normal;      /* Regular weight for the label */
+    margin-bottom: 10px;      /* Space between the label and the score */
+}
+
+/* Styling for the scores */
+#userScore, #computerScore {
+    font-size: 3.5em;           /* Large font size for the score */
+    font-weight: bold;
+}
+
+/* Styling for the separator */
+#scoreSeparator {
+    font-size: 2em;           /* Large separator */
+    margin: 0 10px;           /* Space around the separator */
+}
+
+#userScore {
+    color: chartreuse;
+}
+
+#computerScore {
+    color: crimson;
+}
+
+
+

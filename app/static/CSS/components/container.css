@@ -10,3 +10,16 @@
     margin-right: 25%;
     margin-top: 10%;
 }
+
+.larger-container{
+    margin-bottom: 10%;
+    background: rgba(88, 88, 88, 0.7);
+    border: 2px dotted rgb(0, 0, 0);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
