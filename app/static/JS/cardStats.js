@@ -56,22 +56,22 @@ function randomPlayer(){
 }
 
 function populateCard(id, stats){
-    const card = document.getElementById(id);
-    card.querySelector(".player-name").textContent = `${stats.firstname} ${stats.lastname}`;
-    card.querySelector(".player-team").textContent = stats.team;
-    card.querySelector(".player-position").textContent = stats.position;
-    card.querySelector(".player-height").textContent = stats.height;
-    card.querySelector(".player-weight").textContent = stats.weight;
-    card.querySelector(".player-goals").textContent = stats.career.goals;
-    card.querySelector(".player-assists").textContent = stats.career.assists;
-    card.querySelector(".player-games").textContent = stats.career.gamesPlayed;
-    card.querySelector(".player-shooting").textContent = stats.career.shootingPctg;
-    card.querySelector(".player-headshot").src = stats.headshot;
-    card.querySelector(".team-logo").src = stats.teamlogo;
+    document.getElementById(`${id}-firstname`).innerText = stats.firstname;
+    document.getElementById(`${id}-lastname`).innerText = stats.lastname;
+    document.getElementById(`${id}-team`).innerText = stats.team;
+    document.getElementById(`${id}-position`).innerText = stats.position;
+    document.getElementById(`${id}-height`).innerText = stats.height;
+    document.getElementById(`${id}-weight`).innerText = stats.weight;
+    document.getElementById(`${id}-headshot`).src = stats.headshot;
+    document.getElementById(`${id}-teamlogo`).src = stats.teamlogo;
+    document.getElementById(`${id}-goals`).innerText = stats.career.goals;
+    document.getElementById(`${id}-assists`).innerText = stats.career.assists;
+    document.getElementById(`${id}-gamesPlayed`).innerText = stats.career.gamesPlayed;
+    document.getElementById(`${id}-shootingPctg`).innerText = stats.career.shootingPctg;
 
 }
 
-document.addEventListener("DOMContentLoaded", async() => {
+async function load(){
     
         console.log("clicked");
         const cardStats = await fetchStats(randomPlayer());
@@ -80,11 +80,14 @@ document.addEventListener("DOMContentLoaded", async() => {
             console.error("Failed to fetch player stats. Aborting request.");
             return;
         }
-
+        console.log(cardStats);
         populateCard("cardStats", cardStats);
         populateCard("oppStats", oppStats);
         
-});
+};
+console.log("file opened");
+load();
+
 
 
 

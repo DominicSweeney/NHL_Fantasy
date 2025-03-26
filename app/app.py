@@ -131,7 +131,7 @@ def pick_up_card():
 
 @app.route("/card")
 def cards():
-    return render_template("Client/card.html", username=current_user.username)
+    return render_template("Client/card.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
