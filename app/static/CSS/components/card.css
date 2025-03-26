@@ -185,3 +185,12 @@ body {
     visibility: visible;
 }
 
+/* End of round */
+.result-message {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+.redirect-message {
+    font-size: 1rem;
+    color: #ffffff;
+}

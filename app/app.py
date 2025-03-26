@@ -130,6 +130,10 @@ def vs_computer():
 def pick_up_card():
     return render_template("Client/pickUpCard.html")
 
+@app.route("/endOfRound")
+def end_of_round():
+    return render_template("Client/endOfRound.html")
+
 @app.route("/card", methods=['POST', 'GET'])
 def card():
     if request.method == 'POST':
@@ -271,10 +275,6 @@ def player_profile(player_id):
         return render_template("player_profile.html", player=player_data)
     else:
         return "Player not found", 404
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
 
 # Main entry point for running the app
 if __name__ == '__main__':
