@@ -64,8 +64,8 @@ class Admin(UserMixin, db.Model):
     password = db.Column(db.String(80), unique=True, nullable=False)
 
     role = db.Column(db.String(50), nullable=False, default="Admin")
-    last_login = db.Column(db.DateTime, default=datetime, onupdate=datetime)
-    date_joined = db.Column(db.DateTime, default=datetime)
+    last_login = db.Column(db.DateTime, default=datetime, onupdate=datetime.utcnow)
+    date_joined = db.Column(db.DateTime, default=datetime.utcnow)
 
 # Initialising the database
 def create_tables():
@@ -142,9 +142,6 @@ def card():
     elif request.method == 'GET':
         return render_template("Client/card.html", card=None, opp=None)
         
-
-
-
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
