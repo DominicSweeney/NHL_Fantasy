@@ -210,7 +210,7 @@ body {
 /* Styling for each score item (User/Computer labels and scores) */
 .score-item {
     text-align: center;
-    margin: 0 20px;           /* Space between user and computer sections */
+    margin: 0 135px;           /* Space between user and computer sections */
 }
 
 /* Styling for the label (User/Computer) */
@@ -223,14 +223,8 @@ body {
 
 /* Styling for the scores */
 #userScore, #computerScore {
-    font-size: 3.5em;           /* Large font size for the score */
+    font-size: 2.75em;           /* Large font size for the score */
     font-weight: bold;
-}
-
-/* Styling for the separator */
-#scoreSeparator {
-    font-size: 2em;           /* Large separator */
-    margin: 0 10px;           /* Space around the separator */
 }
 
 #userScore {
@@ -241,5 +235,10 @@ body {
     color: crimson;
 }
 
+#firstToX {
+    font-size: 1.5em;           /* Large font size for the score */
+    font-weight: bold;
+    margin-top: 10px;
+}
 
 
