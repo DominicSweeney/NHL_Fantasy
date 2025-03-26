@@ -193,6 +193,10 @@ def proxy(url):
     response = requests.get(full_url)
     return jsonify(response.json())
 
+def update_last_login(admin_user):
+    admin_user.last_login = datetime.utcnow()
+    db.session.commit()
+
 @app.route("/adminLogin", methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
@@ -205,6 +209,8 @@ def admin_login():
         # Check if the admin user exists and the password matches
         if admin_user and check_password_hash(admin_user.password, password):
             login_user(admin_user)
+            update_last_login(admin_user)
+
             return redirect(url_for('admin_home')) 
           
         flash('Invalid admin credentials', 'danger')
