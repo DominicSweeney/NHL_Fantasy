@@ -86,7 +86,7 @@ def vs_computer():
 def pick_up_card():
     return render_template("Client/pickUpCard.html")
 
-@app.route("/card", methods=['POST'])
+@app.route("/card", methods=['POST', 'GET'])
 def card():
     if request.method == 'POST':
         data = request.get_json()
@@ -94,7 +94,13 @@ def card():
         opp = data.get('oppStats')
         print("Player stats:", player)
         print("Opponent stats:", opp)
-        return render_template("card.html", card=player, opp=opp)
+        return render_template("Client/card.html", card=player, opp=opp)
+    elif request.method == 'GET':
+        return render_template("Client/card.html", card=None, opp=None)
+        
+
+
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
