@@ -1,8 +1,18 @@
 import sqlite3
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from datetime import datetime
 
+# Initialize the Flask app
+api = Flask(__name__)
+
+# Configure the Flask app
 api.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///users.db"  # SQLite database
 api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-api = Flask(__name__)
+
+# Initialize SQLAlchemy
+db = SQLAlchemy(api)
 
 # User table for the database
 class User(UserMixin, db.Model):
