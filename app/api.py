@@ -1,63 +1,31 @@
-import sqlite3
+from flask import Flask, request, jsonify
+from flask_login import login_required, current_user
+from app import db, User  # Import from app.py
 
-api.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///users.db"  # SQLite database
-api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Flask(__name__)
 
-# User table for the database
-class User(UserMixin, db.Model):
-    __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+@api.route('/update_stats', methods=['POST'])
+@login_required
+def update_stats():
+    data = request.get_json()
+    if not data or 'result' not in data:
+        return jsonify({"error": "Invalid request"}), 400
 
-    last_login = db.Column(db.DateTime, default=datetime, onupdate=datetime)
-    player_rank = db.Column(db.String(50), nullable=False, default="Bronze")
-    total_games_played = db.Column(db.Integer, nullable=False, default=0)
-    wins = db.Column(db.Integer, nullable=False, default=0)
-    losses = db.Column(db.Integer, nullable=False, default=0)
-    win_rate = db.Column(db.Float, nullable=False, default=0.0)
+    result = data['result']
+    user = User.query.get(current_user.id)
 
-    def update_stats(self):
-        """Recalculate win rate and update rank based on wins."""
-        if self.total_games_played > 0:
-            self.win_rate = round((self.wins / self.total_games_played) * 100, 2)
-        else:
-            self.win_rate = 0.0
-        
-        # Rank update logic based on win count
-        if self.wins >= 50:
-            self.player_rank = "Prestige"
-        elif self.wins >= 40:
-            self.player_rank = "Diamond"
-        elif self.wins >= 30:
-            self.player_rank = "Platinum"
-        elif self.wins >= 20:
-            self.player_rank = "Gold"
-        elif self.wins >= 10:
-            self.player_rank = "Silver"
-        else:
-            self.player_rank = "Bronze"
-        
-        db.session.commit()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
 
-# Connect to the database
-c = sqlite3.connect('users.db')
-if c:
-    print("Connected")
+    user.total_games_played += 1
+    if result == 'win':
+        user.wins += 1
+    elif result == 'loss':
+        user.losses += 1
+    else:
+        return jsonify({"error": "Invalid result type"}), 400
 
-cursor = c.cursor()
+    user.update_stats()
 
-# Execute the query
-cursor.execute("SELECT * FROM user")
-
-# Fetch all rows
-rows = cursor.fetchall()
-
-# Iterate over each row and print it
-for row in rows:
-    print(row)
-
-# Close the connection
-c.close()
+    user.update_stats()
+    return jsonify({"message": "Stats updated successfully", "win_rate": user.win_rate, "rank": user.player_rank})

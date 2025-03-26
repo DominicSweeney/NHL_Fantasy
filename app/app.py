@@ -142,7 +142,6 @@ def card():
     elif request.method == 'GET':
         return render_template("Client/card.html", card=None, opp=None)
         
-
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
