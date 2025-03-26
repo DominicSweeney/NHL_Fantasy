@@ -11,16 +11,18 @@
 </head>
 <body>
     <div class="container">
-    <h1 id="Title">VS The Computer</h1>
-    <form action="/pickUpCard" class="form">
-        <label id="label" for="score">Set the score you're going to:</label>
-        <div class="input-container">
-            <input type="text" id="score" name="score">
-            <input type="submit" id="setButton" value="set">
-        </div>
-    </form>
-    <a href="{{ url_for('home') }}" class="button-class" id="exit">Exit</a>
+        <h1 id="Title">VS The Computer</h1>
+        <form id="scoreForm">
+            <label id="label" for="score">Set the score you're going to:</label>
+            <div class="input-container">
+                <input type="text" id="score" name="score">
+                <input type="submit" id="setButton" value="Set">
+            </div>
+        </form>
+
+        <a href="{{ url_for('home') }}" class="button-class" id="exit">Exit</a>
     </div>
 </body>
 <script src="../static/JS/fetch_player_list.js"></script>
+<script src="../static/JS/firstToX.js"></script>
 </html>

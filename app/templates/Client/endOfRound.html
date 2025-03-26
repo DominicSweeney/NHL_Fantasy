@@ -3,37 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round Result</title>
     <link href="../static/CSS/components/card.css" rel="stylesheet" type="text/css">
     <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
-    <title>Round Result</title>
+    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div class="container">
+    <div class="larger-container">
         <div class="result-message" id="resultMessage">
             <!-- Result message will be dynamically inserted here -->
         </div>
+
+        <!-- Scoreboard below result message -->
+        <div class="scoreboard">
+            <div class="score-item">
+                <span id="userLabel"></span>
+                <span id="userScore"></span>
+            </div>
+            <div class="score-item">
+                <span id="computerLabel"></span>
+                <span id="computerScore"></span>
+            </div>  
+        </div><br><br>
+
+        <!-- "First to X" Label -->
+        <div class="firstToX" id="firstToX">
+            First to: --
+        </div><br><br>
+
         <div class="redirect-message">
             Redirecting back to the game...
         </div>
     </div>
-
-    <script>
-        // Example: Replace this with actual logic to determine the winner
-        const winner = "user"; // or "computer"
-
-        const resultMessage = document.getElementById("resultMessage");
-        if (winner === "user") {
-            resultMessage.textContent = "Congratulations! You won this round!";
-        } else if (winner === "computer") {
-            resultMessage.textContent = "The computer won this round. Better luck next time!";
-        } else {
-            resultMessage.textContent = "It's a tie!";
-        }
-
-        // Redirect back to card.html after 5 seconds
-        // setTimeout(() => {
-        //     window.location.href = "card.html";
-        // }, 5000);
-    </script>
+    <script src = "../static/JS/endOfRound.js"></script>
 </body>
 </html>
