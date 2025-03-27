@@ -63,8 +63,8 @@ class Admin(UserMixin, db.Model):
     password = db.Column(db.String(80), unique=True, nullable=False)
 
     role = db.Column(db.String(50), nullable=False, default="Admin")
-    last_login = db.Column(db.DateTime, default=datetime, onupdate=datetime)
-    date_joined = db.Column(db.DateTime, default=datetime)
+    last_login = db.Column(db.DateTime, default=datetime, onupdate=datetime.utcnow)
+    date_joined = db.Column(db.DateTime, default=datetime.utcnow)
 
 # Initialising the database
 def create_tables():
@@ -129,10 +129,14 @@ def vs_computer():
 def pick_up_card():
     return render_template("Client/pickUpCard.html")
 
-@app.route("/card")
-def cards():
-    return render_template("Client/card.html")
+@app.route("/endOfRound")
+def end_of_round():
+    return render_template("Client/endOfRound.html")
 
+@app.route("/card")
+def card():
+    return render_template("Client/card.html", card=None, opp=None)
+        
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':    
@@ -262,10 +266,6 @@ def player_profile(player_id):
         return render_template("player_profile.html", player=player_data)
     else:
         return "Player not found", 404
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
 
 # Main entry point for running the app
 if __name__ == '__main__':

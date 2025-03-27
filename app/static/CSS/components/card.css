@@ -29,6 +29,7 @@ h3 {
 .position {
     padding-top: 80%;
     padding-bottom: 0px;
+    padding-left: 25%;
 }
 
 .teamLogo {
@@ -64,33 +65,37 @@ h3 {
 }
 
 .column-card-left {
-   float: left;
-    width:40%;
+    float: left;
+    width: 40%;
 }
 
 .column-card-right {
     float: right;
-    width:40%;
+    width: 40%;
 }
 
 .column-card-middle {
     float: left;
-    width:20%;
+    width: 20%;
 }
 
 
 .stats {
-    padding-top: 0px;
-
+    padding-top: -0%;
+    margin-top: -3%;
     padding-left: 25%;
+   
 }
 
 .goals,
-.gamesPlayed,
-.shooting {
+.gamesPlayed{
     padding-top: 0px;
+    padding-left: 240%;
+}
 
-    padding-left: 50%;
+.shooting{
+    padding-top: 0px;
+    padding-left: 180%;
 }
 
 .blankCard {
@@ -102,11 +107,9 @@ h3 {
     height: 100vh;
     /* Make sure the container takes the full height of the viewport */
     margin-top: 15%;
-    
-    
 }
 
-.usersName{
+.usersName {
     background-color: chartreuse;
     border: 2px solid black;
     width: 20%;
@@ -115,7 +118,7 @@ h3 {
     font-size: auto;
 }
 
-.opponentName{
+.opponentName {
     background-color: red;
     border: 2px solid black;
     width: 20%;
@@ -130,3 +133,112 @@ body {
     background-position: center;
     background-size: cover;
 }
+
+/*left side of the card*/
+.tooltip {
+    position: relative;
+    display: inline-block;
+
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    /* Center the tooltip vertically */
+    left: -100%;
+    /* Position the tooltip to the left of the tooltip container */
+    transform: translate(-280%, -50%);
+    /* Add spacing and center vertically */
+    z-index: 1;
+
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+/*right side of the card*/
+.tooltip2 {
+    position: relative;
+    display: inline-block;
+
+}
+
+.tooltip2 .tooltiptext2 {
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    /* Center the tooltip vertically */
+    left: 100%;
+    /* Position the tooltip to the left of the tooltip container */
+    transform: translate(260%, -50%);
+    /* Add spacing and center vertically */
+    z-index: 1;
+
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip2:hover .tooltiptext2 {
+    visibility: visible;
+}
+
+/* End of round */
+.result-message {
+    font-size: 3rem;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.redirect-message {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* Styling for the scoreboard container */
+.scoreboard {
+    display: flex;
+    justify-content: center;   /* Centers the content horizontally */
+    align-items: center;       /* Centers vertically */
+    font-size: 1.75em;            /* Large font size */
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Styling for each score item (User/Computer labels and scores) */
+.score-item {
+    text-align: center;
+    margin: 0 135px;           /* Space between user and computer sections */
+}
+
+/* Styling for the label (User/Computer) */
+#userLabel, #computerLabel {
+    display: block;           /* Makes the label appear above the score */
+    font-size: 1em;           /* Smaller font size for the label */
+    font-weight: normal;      /* Regular weight for the label */
+    margin-bottom: 10px;      /* Space between the label and the score */
+}
+
+/* Styling for the scores */
+#userScore, #computerScore {
+    font-size: 2.75em;           /* Large font size for the score */
+    font-weight: bold;
+}
+
+#userScore {
+    color: chartreuse;
+}
+
+#computerScore {
+    color: crimson;
+}
+
+#firstToX {
+    font-size: 1.5em;           /* Large font size for the score */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+
