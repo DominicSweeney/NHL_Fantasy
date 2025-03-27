@@ -135,7 +135,7 @@ def end_of_round():
 
 @app.route("/card")
 def card():
-    return render_template("Client/card.html", card=None, opp=None)
+    return render_template("Client/card.html")
         
 @app.route("/register", methods=['GET', 'POST'])
 def register():
