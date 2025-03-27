@@ -1,10 +1,20 @@
-
-
 let selectedStat = ""; // Variable to store the selected stat
 let userChoice = ""; // Variable to store the user's choice (Higher or Lower)
 
+
+
 // Select all elements with the class "higherOrLower"
 const statElements = document.querySelectorAll('.higherOrLower');
+
+function penguin_attack(){
+    setTimeout(() => {
+        document.getElementById('penguin').src = "../../static/images/loading-bar.gif";
+        setTimeout(() => {
+            document.getElementById('penguin').src = ""; // Hide the gif by clearing the src
+        }, 4000);
+    }, 500);
+    on_computer_turn();
+}
 
 // Add a click event listener to each stat element
 statElements.forEach(element => {
@@ -47,6 +57,7 @@ document.getElementById('higherChosen').addEventListener('click', () => {
     // Display the user's selection
     const userSelectionText = document.querySelector('.userSelection');
     userSelectionText.textContent = `You selected ${selectedStat} and chose ${userChoice}.`;
+    penguin_attack();
 });
 
 document.getElementById('lowerChosen').addEventListener('click', () => {
@@ -56,5 +67,6 @@ document.getElementById('lowerChosen').addEventListener('click', () => {
     // Display the user's selection
     const userSelectionText = document.querySelector('.userSelection');
     userSelectionText.textContent = `You selected ${selectedStat} and chose ${userChoice}.`;
+    penguin_attack();
 });
 
