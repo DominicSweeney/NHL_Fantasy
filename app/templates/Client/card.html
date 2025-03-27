@@ -16,44 +16,38 @@
 
     <div class="row">
         <div class="column-card-left">
-            <div class="card">
+            <div class="card" id="cardstats">
                 <div class="usersName">
                     <h4>
-                        {{username}}
+                        <!--{{username}}-->
                     </h4>
                 </div>
 
 
-                <img class="formatedCard" src="../../static/images/FormattedCard.png" alt="Formatted Card" height="800"
+                <img class="formatedCard" alt="Formatted Card" src="../../static/images/FormattedCard.png" height="800"
                     width="800">
                 <div class="cardContent">
                     <div class="row">
-                        <!-- <div class="column"> <img class="teamLogo" src={{card.teamlogo}} alt="Team logo" height="50" width="50"> </div> -->
-                        <div class="column"> <img class="teamLogo" src="../../static/images/test-card-team.png" alt="Team logo" height="50" width="50"> </div>
+                        <div class="column"> <img class="teamLogo" id ="player-teamlogo" alt="Team logo" height="50" width="50"> </div>
                         <div class="column">
-                            <!-- <h2 class="position">{{card.position}}</h2> -->
-                            <h2 class="position">C</h2>
+                            <h2 class="position" id="player-position">C</h2>
                         </div>
                     </div>
 
-                    <!-- <img class="playerPicture" src={{card.headshot}} alt="Player picture" height="300" width="350"> -->
-                    <img class="playerPicture" src="../../static/images/test-card-player.jpg" alt="Player picture" height="300" width="350">
-                    <!-- <h2 class="playerName">{{card.firstname}} {{card.lastname}}</h2> -->
-                    <h2 class="playerName">Wayne Gretzky</h2>
+                    <img class="playerPicture" id="player-headshot" src="../../static/images/temp-player-headshot.png" alt="Player picture" height="300" width="350">
+                    <h2 class="playerName" id="player-name">Name</h2>
                     <div class="stats">
                         <div class="row">
                             <div class="column">
                                 <div class ="tooltip">
-                                    <!-- <h3 class="height">{{card.height}}</h3> -->
-                                    <h3 class="higherOrLower height" data-stat="Height">5'10</h3>
+                                    <h3 class="higherOrLower height" id="player-height" data-stat="Height">0</h3>
                                     <span class="tooltiptext"><img class="leftArrow" src="../../static/images/left-arrow-outlined.png" alt="left-arrow" height="70" width="70"> </span>
                                 </div>
                                 
                             </div>
                             <div class="column">
                                 <div class="tooltip2">
-                                    <!-- <h3 class="goals">{{card.career.goals}}</h3> -->
-                                    <h3 class="higherOrLower goals" data-stat="Goals">800</h3>
+                                    <h3 class="higherOrLower goals" id="player-goals" data-stat="Goals">0</h3>
                                     <span class="tooltiptext2"><img class="rightArrow" src="../../static/images/right-arrow-outlined.png" alt="right-arrow" height="70" width="70"> </span>
                                 </div>
                                 
@@ -62,16 +56,14 @@
                         <div class="row">
                             <div class="column">
                                 <div class = tooltip>
-                                    <!-- <h3 class="weight">{{card.weight}}</h3> -->
-                                    <h3 class="higherOrLower weight" data-stat="Weight">78</h3>
+                                    <h3 class="higherOrLower weight" id="player-weight" data-stat="Weight">0</h3>
                                 <span class="tooltiptext"><img class="leftArrow" src="../../static/images/left-arrow-outlined.png" alt="left-arrow" height="70" width="70"> </span>
                                 </div>
                                 
                             </div>
                             <div class="column">
                                 <div class ="tooltip2">
-                                    <!-- <h3 class="gamesPlayed">{{card.career.gamesPlayed}}</h3> -->
-                                    <h3 class="higherOrLower gamesPlayed" data-stat="GamesPlayed">700</h3>
+                                    <h3 class="higherOrLower gamesPlayed" id="player-gamesPlayed" data-stat="GamesPlayed">0</h3>
                                     <span class="tooltiptext2"><img class="rightArrow" src="../../static/images/right-arrow-outlined.png" alt="right-arrow" height="70" width="70"> </span>
                                 </div>
                                 
@@ -80,16 +72,14 @@
                         <div class="row">
                             <div class="column">
                                 <div class="tooltip">
-                                    <!-- <h3 class="assist">{{card.career.assists}}</h3> -->
-                                    <h3 class="higherOrLower assist" data-stat="Assist">900</h3>
+                                    <h3 class="higherOrLower assist" id="player-assists" data-stat="Assist">0</h3>
                                  <span class="tooltiptext"><img class="leftArrow" src="../../static/images/left-arrow-outlined.png" alt="left-arrow" height="70" width="70"> </span>
                                 </div>
                                 
                             </div>
                             <div class="column">
                                 <div class="tooltip2">
-                                    <!-- <h3 class="shooting">{{card.career.shootingPctg}}</h3> -->
-                                    <h3 class="higherOrLower shooting" data-stat="Shooting">40%</h3>
+                                    <h3 class="higherOrLower shooting" id="player-shootingPctg" data-stat="Shooting">0%</h3>
                                 <span class="tooltiptext2"><img class="rightArrow" src="../../static/images/right-arrow-outlined.png" alt="right-arrow" height="70" width="70"> </span>
                                 </div>
                                 
@@ -120,6 +110,7 @@
                     </div>
                 </div>
                 <p class="userSelection"></p> <!-- This will display the user's choice -->
+                <img id="penguin">
             </div>
         </div>
         <div class="column-card-right">
@@ -130,9 +121,10 @@
                         CPU
                     </h4>
                 </div>
-
+                <div id="oppCard">
                 <img class="playerCard" src="../../static/images/PlayerCard.png" alt="Player Card" height="800"
                     width="800">
+                </div>  
 
                     
             </div>
@@ -145,6 +137,7 @@
 
 
 </body>
+<script src="../../static/JS/cardStats.js"></script>
 <script src="../../static/JS/higherOrLower.js"></script>
 <script src="../../static/JS/cardStats.js"></script>
 

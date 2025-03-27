@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, redirect, url_for, request, flash,abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -130,22 +129,21 @@ def vs_computer():
 def pick_up_card():
     return render_template("Client/pickUpCard.html")
 
-@app.route("/card", methods=['POST', 'GET'])
-def card():
-    if request.method == 'POST':
-        data = request.get_json()
-        player = data.get('cardStats')
-        opp = data.get('oppStats')
-        print("Player stats:", player)
-        print("Opponent stats:", opp)
-        return render_template("Client/card.html", card=player, opp=opp)
-    elif request.method == 'GET':
-        return render_template("Client/card.html", card=None, opp=None)
-        
+@app.route("/endOfRound")
+def end_of_round():
+    return render_template("Client/endOfRound.html")
 
+@app.route("/gameOver")
+def game_over():
+    return render_template("Client/gameOver.html")
+
+@app.route("/card")
+def card():
+    return render_template("Client/card.html")
+        
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
+    if request.method == 'POST':    
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
@@ -272,10 +270,6 @@ def player_profile(player_id):
         return render_template("player_profile.html", player=player_data)
     else:
         return "Player not found", 404
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
 
 # Main entry point for running the app
 if __name__ == '__main__':
