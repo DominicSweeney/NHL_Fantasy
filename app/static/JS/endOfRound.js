@@ -1,29 +1,46 @@
-        // Retrieve and display the target score from sessionStorage
-        let targetScore = sessionStorage.getItem("targetScore") || "--";
-        document.getElementById("firstToX").textContent = `First to: ${targetScore}`;
+// Retrieve target score from sessionStorage
+let targetScore = parseInt(sessionStorage.getItem("targetScore")) || 10; 
+document.getElementById("firstToX").textContent = `First to: ${targetScore}`;
 
-        // Example score values (Replace with actual logic)
-        let userScore = 1;
-        let computerScore = 0;
+// Retrieve previous scores or initialize them
+let userScore = parseInt(sessionStorage.getItem("userScore")) || 0;
+let computerScore = parseInt(sessionStorage.getItem("computerScore")) || 0;
 
-        // Update scores
-        document.getElementById("userScore").textContent = `User: ${userScore}`;
-        document.getElementById("computerScore").textContent = `PC: ${computerScore}`;
+// Example: Update scores based on the round result (Replace this with actual logic)
+const roundWinner = sessionStorage.getItem("roundWinner"); // Get winner from sessionStorage
 
-        // Example winner determination (Replace with actual logic)
-        const winner = "user"; 
+if (roundWinner === "user") {
+    userScore++;
+} else if (roundWinner === "computer") {
+    computerScore++;
+}
 
-        const resultMessage = document.getElementById("resultMessage");
-        if (winner === "user") {
-            resultMessage.textContent = "Congratulations! You won this round!";
-        } else if (winner === "computer") {
-            resultMessage.textContent = "The computer won this round. Better luck next time!";
-        } else {
-            resultMessage.textContent = "It's a tie!";
-        }
+// Store updated scores in sessionStorage
+sessionStorage.setItem("userScore", userScore);
+sessionStorage.setItem("computerScore", computerScore);
+sessionStorage.setItem("roundWinner", roundWinner);
 
+// Update displayed scores
+document.getElementById("userScore").textContent = `User: ${userScore}`;
+document.getElementById("computerScore").textContent = `CPU: ${computerScore}`;
 
-    //Redirect back to card.html after 5 seconds
-     setTimeout(() => { 
-         window.location.href = "card.html"; 
-     }, 5000);
+// Check if the game is over
+if (userScore >= targetScore || computerScore >= targetScore) {
+
+    // Redirect to gameOver.html
+    window.location.href = "/gameOver";
+} else {
+    // Otherwise, display round result and go back to card.html after 5 seconds
+    const resultMessage = document.getElementById("resultMessage");
+    if (roundWinner === "user") {
+        resultMessage.textContent = "Congratulations! You won this round!";
+    } else if (roundWinner === "computer") {
+        resultMessage.textContent = "The computer won this round. Better luck next time!";
+    } else {
+        resultMessage.textContent = "It's a tie!";
+    }
+
+    setTimeout(() => { 
+        window.location.href = "/card"; 
+    }, 5000);
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over</title>
+    <link href="../static/CSS/components/card.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/components/container.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/pages/index.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="larger-container">
+        <div class="result-message" id="resultMessage">
+            <!-- Result message will be dynamically inserted here -->
+        </div>
+
+        <!-- Scoreboard below result message -->
+        <div class="scoreboard">
+            <div class="score-item">
+                <span id="userLabel"></span>
+                <span id="userScore"></span>
+            </div>
+            <div class="score-item">
+                <span id="computerLabel"></span>
+                <span id="computerScore"></span>
+            </div>  
+        </div><br><br>
+
+        <!-- "First to X" Label -->
+        <div class="firstToX" id="firstToX">
+            First to: -- 
+        </div><br><br>
+
+        <div class="redirect-message">
+            Redirecting back to home...
+        </div>
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Retrieve sessionStorage values
+        let targetScore = parseInt(sessionStorage.getItem("targetScore")) || 10;
+        let userScore = parseInt(sessionStorage.getItem("userScore")) || 0;
+        let computerScore = parseInt(sessionStorage.getItem("computerScore")) || 0;
+        let roundWinner = sessionStorage.getItem("roundWinner");  // Get who won the game
+
+        // Display the "First to X" message
+        document.getElementById("firstToX").textContent = `First to: ${targetScore}`;
+
+        // Display the scores
+        document.getElementById("userScore").textContent = `User: ${userScore}`;
+        document.getElementById("computerScore").textContent = `CPU: ${computerScore}`;
+
+        // Display the winner message
+        const resultMessage = document.getElementById("resultMessage");
+        if (roundWinner === "user") {
+            resultMessage.textContent = "Congratulations! You won the game!";
+        } else if (roundWinner === "computer") {
+            resultMessage.textContent = "The computer won the game. Better luck next time!";
+        } else {
+            resultMessage.textContent = "It's a tie!";
+        }
+
+        // Optionally, redirect after a few seconds
+        setTimeout(() => {
+            window.location.href = "/home"; // Redirect to home page after 5 seconds
+        }, 5000);
+
+    sessionStorage.removeItem("userScore");
+    sessionStorage.removeItem("computerScore");
+    sessionStorage.removeItem("targetScore");
+    sessionStorage.removeItem("roundWinner"); 
+    });
+    </script>
+</body>
+</html>

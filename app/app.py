@@ -133,6 +133,10 @@ def pick_up_card():
 def end_of_round():
     return render_template("Client/endOfRound.html")
 
+@app.route("/gameOver")
+def game_over():
+    return render_template("Client/gameOver.html")
+
 @app.route("/card")
 def card():
     return render_template("Client/card.html")
