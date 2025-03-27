@@ -1,5 +1,3 @@
-
-
 let selectedStat = ""; // Variable to store the selected stat
 let userChoice = ""; // Variable to store the user's choice (Higher or Lower)
 
@@ -47,6 +45,14 @@ document.getElementById('higherChosen').addEventListener('click', () => {
     // Display the user's selection
     const userSelectionText = document.querySelector('.userSelection');
     userSelectionText.textContent = `You selected ${selectedStat} and chose ${userChoice}.`;
+
+    // Show the loading bar
+    const loadingBar = document.querySelector('.loading');
+    loadingBar.style.display = 'block';
+
+    // Hide the higherOrLowerBox
+    const higherOrLowerBox = document.querySelector('.higherOrLowerBox');
+    higherOrLowerBox.style.display = 'none';
 });
 
 document.getElementById('lowerChosen').addEventListener('click', () => {
@@ -56,5 +62,12 @@ document.getElementById('lowerChosen').addEventListener('click', () => {
     // Display the user's selection
     const userSelectionText = document.querySelector('.userSelection');
     userSelectionText.textContent = `You selected ${selectedStat} and chose ${userChoice}.`;
-});
 
+    // Show the loading bar
+    const loadingBar = document.querySelector('.loading');
+    loadingBar.style.display = 'block';
+
+    // Hide the higherOrLowerBox
+    const higherOrLowerBox = document.querySelector('.higherOrLowerBox');
+    higherOrLowerBox.style.display = 'none';
+});
