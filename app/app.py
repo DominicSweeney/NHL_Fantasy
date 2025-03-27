@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, redirect, url_for, request, flash,abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -134,21 +133,13 @@ def pick_up_card():
 def end_of_round():
     return render_template("Client/endOfRound.html")
 
-@app.route("/card", methods=['POST', 'GET'])
+@app.route("/card")
 def card():
-    if request.method == 'POST':
-        data = request.get_json()
-        player = data.get('cardStats')
-        opp = data.get('oppStats')
-        print("Player stats:", player)
-        print("Opponent stats:", opp)
-        return render_template("Client/card.html", card=player, opp=opp)
-    elif request.method == 'GET':
-        return render_template("Client/card.html", card=None, opp=None)
+    return render_template("Client/card.html", card=None, opp=None)
         
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
+    if request.method == 'POST':    
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
